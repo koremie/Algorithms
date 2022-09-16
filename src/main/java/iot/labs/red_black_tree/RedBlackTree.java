@@ -1,6 +1,8 @@
 package main.java.iot.labs.red_black_tree;
 
-public class RedBlackTree<T extends Comparable> {
+import java.io.PrintStream;
+
+public class RedBlackTree<T extends Comparable<T>> {
     private Node root;
 
     private class Node {
@@ -14,68 +16,6 @@ public class RedBlackTree<T extends Comparable> {
 	    this.data = data;
 	    color = Color.RED;
 	}
-    }
-
-    public RedBlackTree() {
-	root = null;
-    }
-
-    public void inOrder() {
-	inOrderHelper(this.root);
-    }
-
-    private void inOrderHelper(Node node) {
-	if (node != null) {
-	    inOrderHelper(node.left);
-	    System.out.println(node.data);
-	    inOrderHelper(node.right);
-	}
-    }
-
-    int tabs = 0;
-    StringBuilder tree;
-
-    public void printTree() {
-	printHelper(this.root, "", true);
-    }
-
-    private void printHelper(Node root, String indent, boolean last) {
-	if (root != null) {
-	    System.out.print(indent);
-	    if (last) {
-		System.out.print("R----");
-		indent += "   ";
-	    } else {
-		System.out.print("L----");
-		indent += "|  ";
-	    }
-
-	    System.out.println(root.data + "(" + root.color + ")");
-	    printHelper(root.left, indent, false);
-	    printHelper(root.right, indent, true);
-	}
-    }
-
-    public void print() {
-	tree = new StringBuilder();
-	printHelper(this.root);
-	System.out.print(tree.toString());
-    }
-
-    private void printHelper(Node node) {
-
-	if (node.left != null) {
-	    printHelper(node.left);
-	}
-	for (int i = 0; i < tabs; i++) {
-	    System.out.print("  ");
-	}
-	System.out.println(node.data + " " + node.color);
-	if (node.right != null) {
-	    printHelper(node.right);
-	    tabs += 2;
-	}
-	tabs -= 2;
     }
 
     private void leftRotate(Node current) {
@@ -151,8 +91,8 @@ public class RedBlackTree<T extends Comparable> {
 	    } else if (nodeToInsert.data.compareTo(current.data) > 0) {
 		current = current.right;
 	    } else {
-		System.out.println("Such data is already present in da tree");
-		break;
+		System.out.println("Such data (" + data + ") is already present in da tree");
+		return;
 	    }
 	}
 
@@ -224,4 +164,93 @@ public class RedBlackTree<T extends Comparable> {
 	    leftRotate(getGrandparent(node));
 	}
     }
+
+    public RedBlackTree() {
+	root = null;
+    }
+
+    public void inOrder() {
+	inOrderHelper(this.root);
+    }
+
+    private void inOrderHelper(Node node) {
+	if (node != null) {
+	    inOrderHelper(node.left);
+	    System.out.print(node.data + " ");
+	    inOrderHelper(node.right);
+	}
+    }
+
+    int tabs = 1;
+
+    public void print() {
+	System.out.println();
+	printHelper(this.root);
+    }
+
+    private void printHelper(Node node) {
+
+	if (node.right != null) {
+	    tabs += 1;
+	    printHelper(node.right);
+	}
+
+	for (int i = 0; i < tabs; i++) {
+	    System.out.print("\t");
+	}
+	System.out.print("(" + node.data + " " + node.color + ")\n");
+
+	if (node.left != null) {
+	    tabs += 1;
+	    printHelper(node.left);
+	}
+	tabs -= 1;
+    }
+
+    public void print(PrintStream os) {
+	System.out.println();
+	os.print(traversePreOrder(this.root));
+    }
+
+    public String traversePreOrder(Node root) {
+
+	if (root == null) {
+	    return "";
+	}
+
+	StringBuilder sb = new StringBuilder();
+	sb.append("(" + root.data + " " + root.color + ")");
+
+	String pointerRight = "`--";
+	String pointerLeft = (root.right != null) ? "|--" : "`--";
+
+	traverseNodes(sb, "", pointerLeft, root.right, root.left != null);
+	traverseNodes(sb, "", pointerRight, root.left, false);
+
+	return sb.toString();
+    }
+
+    public void traverseNodes(StringBuilder sb, String padding, String pointer, Node node, boolean hasRightSibling) {
+	if (node != null) {
+	    sb.append("\n");
+	    sb.append(padding);
+	    sb.append(pointer);
+	    sb.append("(" + node.data + " " + node.color + ")");
+
+	    StringBuilder paddingBuilder = new StringBuilder(padding);
+	    if (hasRightSibling) {
+		paddingBuilder.append("|  ");
+	    } else {
+		paddingBuilder.append("   ");
+	    }
+
+	    String paddingForBoth = paddingBuilder.toString();
+	    String pointerRight = "`--";
+	    String pointerLeft = (node.right != null) ? "|--" : "`--";
+
+	    traverseNodes(sb, paddingForBoth, pointerLeft, node.right, node.left != null);
+	    traverseNodes(sb, paddingForBoth, pointerRight, node.left, false);
+	}
+    }
+
 }
