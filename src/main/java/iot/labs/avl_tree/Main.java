@@ -1,17 +1,18 @@
-package main.java.iot.labs.red_black_tree;
+package main.java.iot.labs.avl_tree;
 
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
+
     public static void main(String[] args) {
-	RedBlackTree<Integer> redBlackTreee = new RedBlackTree<>();
+	AVLTree<Integer> avlTreee = new AVLTree<>();
 
 	int treSize = ThreadLocalRandom.current().nextInt(0, 100);
 
 	for (int i = 0; i < treSize; i++) {
-	    redBlackTreee.insert(ThreadLocalRandom.current().nextInt(0, 1001));
+	    avlTreee.insert(ThreadLocalRandom.current().nextInt(0, 1001));
 	}
 
-	redBlackTreee.print(System.out);
+	avlTreee.print();
     }
 }
