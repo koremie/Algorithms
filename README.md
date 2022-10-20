@@ -19,7 +19,7 @@ Incoming data:
 - The next N lines contain pairs of people from different tribes
 
 Output data:
-  Number of possible combinations of pairs of people from different tribes
+- Number of possible combinations of pairs of people from different tribes
 
 Limitation:
-  0 < N < 10000
+- 0 < N < 10000
