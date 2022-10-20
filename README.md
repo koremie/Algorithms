@@ -23,3 +23,5 @@ Output data:
 
 Limitation:
 - 0 < N < 10000
+
+[Task source](https://docs.google.com/document/d/1O6Zz1UFbs48vjqaBWxc1L1BZ1ZnOPVR_/edit?usp=sharing&ouid=113994776781114152592&rtpof=true&sd=true)
