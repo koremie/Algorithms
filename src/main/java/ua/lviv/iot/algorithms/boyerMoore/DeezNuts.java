@@ -24,9 +24,9 @@ public class DeezNuts {
                 lineCounter++;
                 char[] lineChar = lineScanner.nextLine().toCharArray();
                 int currentPos = charPattern.length - 1;
+                int i = currentPos;
                 while (currentPos < lineChar.length) {
                     Boolean patternMatched = true;
-                    int i = charPattern.length - 1;
                     for (; i >= 0; i--) {
                         if (charPattern[i] != lineChar[currentPos - charPattern.length + 1 + i]) {
                             patternMatched = false;
@@ -35,6 +35,7 @@ public class DeezNuts {
                     }
 
                     if (patternMatched) {
+                        i++;
                         System.out.println("Pattern \"" + pattern + "\" matched at: " + lineCounter + ":"
                                 + (currentPos - charPattern.length + 2) + " (in " + text.getName() + ")");
                     }
@@ -49,15 +50,5 @@ public class DeezNuts {
             e.printStackTrace();
         }
         System.out.println();
-    }
-
-    public static void main(String[] args) {
-        DeezNuts deezNuts = new DeezNuts();
-        deezNuts.doBoyerMoore(
-                new File(Paths.get("").toAbsolutePath().toString() + "\\src\\test\\resources", "BoyerMoore.1.txt"),
-                "variable");
-        deezNuts.doBoyerMoore(
-                new File(Paths.get("").toAbsolutePath().toString() + "\\src\\test\\resources", "BoyerMoore.2.txt"),
-                "bab");
     }
 }
